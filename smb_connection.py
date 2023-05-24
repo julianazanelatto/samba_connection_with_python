@@ -3,7 +3,7 @@ import smbclient
 
 class SmbConnection:
     
-    def __init__(self, server=None, workgroup=None, user=None, passwd=None):
+    def __init__(self, server=None, workgroup="WORKGROUP", user=None, passwd=None):
         self._server = server
         self._user = user
         self._workgroup = workgroup
@@ -31,16 +31,19 @@ class SmbConnection:
     def get_path(self):
         # self._path = path
         self._path = "/sambashare/"
-        self._folders = ["raiz/", "backup/", "docs/"]
+        # self._folders = ["raiz/", "backup/", "docs/"]
 
         if type(self._folders) == list:
             full_paths = []
         else:
             full_paths = ""
 
-        for folder in self._folders:
-            element = ''.join(["//", self._server, self._path, folder])
-            full_paths.append(element)
+        if self._folders:
+            for folder in self._folders:
+                element = ''.join(["//", self._server, self._path, folder])
+                full_paths.append(element)
+        else:
+            full_paths = ''.join(["//", self._server, self._path])
 
         if full_paths:
             return full_paths
@@ -53,3 +56,15 @@ class SmbConnection:
     
         # return client and session
         return self.smb, self.smb.register_session(_server, _user, _passwd)
+
+    def smb_reading(self, paths, smb_client: smbclient):
+        if type(paths) != list:
+            self._list_files(smb_client, paths)
+        else:
+            for folders in paths:
+                print("Location:", folders)
+                self._list_files(smb_client, folders)
+
+    def _list_files(self, smb_client: smbclient, folder):
+        dirs = smb_client.listdir(folder)  # every kind of file
+        print("Diretório vazio" if len(dirs) == 0 else ("Number of Folders:", len(dirs)))
