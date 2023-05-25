@@ -13,6 +13,6 @@ if __name__ == '__main__':
     if smb_session.session_id:
 
         paths = smbConn.get_path()
-        smbConn.smb_reading(paths, smb_client)
+        smbConn.smb_reading(paths)
 
 
