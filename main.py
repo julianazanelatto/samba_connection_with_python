@@ -7,6 +7,11 @@ if __name__ == '__main__':
     smbConn = SmbConnection(server="192.168.1.5",
                             user="jm",
                             passwd="123456")
+
+    smbConn2 = SmbConnection(server="192.168.1.5",
+                            user="dm",
+                            passwd="123456")
+
     smbConn.get_parameters()
     smb_client, smb_session = smbConn.connecting()
 

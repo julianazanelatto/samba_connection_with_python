@@ -65,10 +65,7 @@ class SmbConnection:
         self._path = "/sambashare/"
         # self._folders = ["raiz/", "backup/", "docs/"]
 
-        if type(self._folders) == list:
-            full_paths = []
-        else:
-            full_paths = ""
+        full_paths = ([] if type(self._folders) == list else "")
 
         if self._folders:
             for folder in self._folders:
